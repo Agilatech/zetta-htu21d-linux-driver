@@ -1,0 +1,24 @@
+{
+  "name": "zetta-htu21d-driver",
+  "version": "0.1.0",
+  "description": "Zetta htu21d driver for Linux",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "zetta-device": "*",
+    "zetta-scout": "*",
+    "@agilatech/htu21d": "*"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "keywords": [
+    "zetta",
+    "htu21d",
+    "beaglebone",
+    "raspberry pi"
+  ]
+}
