@@ -1,4 +1,4 @@
-##Zetta htu21d carbon dioxide sensor driver for Linux
+##Zetta htu21d humidity and temperature sensor driver for Linux
 
 This driver should work on any Linux platform, but has so far only been tested on BeagleBone Black
 
