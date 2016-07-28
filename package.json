@@ -1,6 +1,6 @@
 {
-  "name": "zetta-htu21d-driver",
-  "version": "0.1.0",
+  "name": "@agilatech/zetta-htu21d-linux-driver",
+  "version": "0.8.2",
   "description": "Zetta htu21d driver for Linux",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,9 @@
   "keywords": [
     "zetta",
     "htu21d",
+    "humidity",
+    "temperature",
+    "sensor",
     "beaglebone",
     "raspberry pi"
   ]

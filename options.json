@@ -1,0 +1,5 @@
+{
+    "bus": "/dev/i2c-2",
+    "chronPeriod": 60000,
+    "streamPeriod": 10000
+}
