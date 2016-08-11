@@ -17,7 +17,7 @@ const serverPort = 1107;
 // NOTE: the options for the htu21d sensor are overridden here
 
 zetta()
-	.name('Zetta Server for HTU21D')
+	.name('testServer')
 	.use(th_sensor, { "bus":"/dev/i2c-2", "chronPeriod":30000, "streamPeriod":15000 })
     .use(app)
 	.listen(serverPort, function() {

@@ -15,6 +15,9 @@ const util = require('util');
 const Htu21d = require('./htu21d');
 
 const Htu21dScout = module.exports = function(opts) {
+  
+  // see if any of the options were overridden in the server
+
   if (typeof opts !== 'undefined') {
     if (typeof opts['bus'] !== 'undefined') {
       options['bus'] = opts['bus'];

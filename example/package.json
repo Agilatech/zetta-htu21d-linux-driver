@@ -1,6 +1,6 @@
 {
   "name": "zetta-htu21d-linux-example",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "an example for using the htu21d device",
   "main": "server.js",
   "scripts": {

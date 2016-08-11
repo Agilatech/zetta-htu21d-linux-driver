@@ -49,6 +49,7 @@ To override the options defined in the options.json file, supply them in an obje
 zetta().use(htu_sensor, { "bus":"/dev/i2c-1", "chronPeriod":30000, "streamPeriod":15000 });
 ```
 Overrides the defaults to initialize the bus on **/dev/i2c-1** with a data monitoring period of **30 seconds** and streaming data every **1.5 seconds**
+
 ### Hardware
 
 * Beaglebone Black
@@ -66,9 +67,15 @@ stop-isochronal
 ```
 Stops data collection for the monitored values.
 
+###State
+**chron-off** is the beginning state.  The driver enters this state after a transition '*stop-isochronal*' command.  In this state, the monitored data value co2 is set to 0, and no sensor readings are updated.
+
+**chron-on** is the state after a transition '*start-isochronal*' command.  In this state, the monitored data value co2 is updated every time period as specified by '*chronPeriod*'.
+
+
 ###Design
 
-This device driver is designed for both streaming and discreet data collection from the HTU21D sensor.
+This device driver is designed for both streaming and periodic monitored data collection from the HTU21D sensor.
 
 ###Copyright
 Copyright © 2016 Agilatech. All Rights Reserved.

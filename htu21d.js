@@ -39,18 +39,18 @@ htu21d.prototype.init = function(config) {
   config
         .type('HTU21D_Sensor')
         .state('chron-off')
-        .when('chron-off', {allow: ['start-isochronal', 'log-data']})
-        .when('chron-on', {allow: ['stop-isochronal', 'log-data']})
+        .when('chron-off', {allow: ['start-isochronal']})
+        .when('chron-on', {allow: ['stop-isochronal']})
         .stream('temperatureStream', this.streamTemperature)
         .stream('humidityStream', this.streamHumidity)
         .monitor('temperature')
         .monitor('humidity')
         .map('stop-isochronal', this.stopIsochronal)
         .map('start-isochronal', this.startIsochronal)
-        .map('log-data', this.logData)
         .name(this.htu21d_sensor.deviceName())
         .remoteFetch(function() {
             return {
+                active: this.htu21d_sensor.deviceActive(),
                 temperature: this.temperature,
                 humidity: this.humidity
             };
@@ -62,14 +62,14 @@ htu21d.prototype.startIsochronal = function(callback) {
     this.state = 'chron-on';
 
     // load values right away before the timer starts
-    this.temperature = this.readTemperature();
     this.humidity = this.readHumidity();
+    this.temperature = this.readTemperature();
     
     var self = this;
     
     this._chron = setInterval(function() {
-        self.temperature = self.readTemperature();
         self.humidity = self.readHumidity();
+        self.temperature = self.readTemperature();
     }, this.chronPeriod);
 
     callback();
@@ -77,40 +77,52 @@ htu21d.prototype.startIsochronal = function(callback) {
 
 htu21d.prototype.stopIsochronal = function(callback) {
     this.state = 'chron-off';
+    
+    // hmmm, setting temp to 0 may be misleading...
+    this.temperature = 0;
+    this.humidity = 0;
+    
     clearTimeout(this._chron);
     callback();
 };
 
-htu21d.prototype.streamTemperature = function(stream) {
-    var self = this;
-    this._streamTemp = setInterval(function() {
-        stream.write(self.readTemperature());
-    }, this.streamPeriod);
-};
-
 htu21d.prototype.streamHumidity = function(stream) {
+    // a stream period of 0 disables streaming
+    if (this.streamPeriod <= 0) {
+        stream.write(0);
+        return;
+    }
+    
     var self = this;
     this._streamHum = setInterval(function() {
         stream.write(self.readHumidity());
     }, this.streamPeriod);
 };
 
-htu21d.prototype.logData = function() {
-    this.log("Humidity : " + this.readHumidity() + ", Temperature : " + this.readTemperature());
-}
-
-htu21d.prototype.readTemperature = function() {
-    if (this.htu21d_sensor.deviceActive()) {
-        return this.htu21d_sensor.valueAtIndexSync(1);
+htu21d.prototype.streamTemperature = function(stream) {
+    // a stream period of 0 disables streaming
+    if (this.streamPeriod <= 0) {
+        stream.write(0);
+        return;
     }
-    // else ?
+    
+    var self = this;
+    this._streamTemp = setInterval(function() {
+        stream.write(self.readTemperature());
+    }, this.streamPeriod);
 };
 
 htu21d.prototype.readHumidity = function() {
     if (this.htu21d_sensor.deviceActive()) {
         return this.htu21d_sensor.valueAtIndexSync(0);
     }
-    // else ?
 };
+
+htu21d.prototype.readTemperature = function() {
+    if (this.htu21d_sensor.deviceActive()) {
+        return this.htu21d_sensor.valueAtIndexSync(1);
+    }
+};
+
 
 

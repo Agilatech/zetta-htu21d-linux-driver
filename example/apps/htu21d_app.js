@@ -13,9 +13,21 @@ module.exports = function testApp(server) {
   var htu21dDeviceQuery = server.where({type:'HTU21D_Sensor'});
   
   server.observe([htu21dDeviceQuery], function(htu21dDevice) {
-    setInterval(function(){
-      htu21dDevice.call('log-data');
-    }, 10000);
+     // start the periodic data collection
+     htu21dDevice.call('start-isochronal');
+     
+     // Now when the monitored value changes, new data will be present on the stream.
+     // The incomming message contains three fields: topic, timestamp, and data.
+     htu21dDevice.streams.humidity.on('data', function(message) {
+         console.log("humidity data stream " + message.topic + " : " + message.timestamp + " : " + message.data)
+     });
+    
+     htu21dDevice.streams.temperature.on('data', function(message) {
+          console.log("temperature data stream " + message.topic + " : " + message.timestamp + " : " + message.data)
+     });
+     
+     // Above, note that we know the monitored data name.  This information is also available in the
+     // device meta response at http://localhost:1107/servers/testServer/meta/HTU21D_Sensor
   });
   
 }
