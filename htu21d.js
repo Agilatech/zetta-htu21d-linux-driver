@@ -41,18 +41,18 @@ htu21d.prototype.init = function(config) {
         .state('chron-off')
         .when('chron-off', {allow: ['start-isochronal']})
         .when('chron-on', {allow: ['stop-isochronal']})
-        .stream('temperatureStream', this.streamTemperature)
         .stream('humidityStream', this.streamHumidity)
-        .monitor('temperature')
+        .stream('temperatureStream', this.streamTemperature)
         .monitor('humidity')
+        .monitor('temperature')
         .map('stop-isochronal', this.stopIsochronal)
         .map('start-isochronal', this.startIsochronal)
         .name(this.htu21d_sensor.deviceName())
         .remoteFetch(function() {
             return {
                 active: this.htu21d_sensor.deviceActive(),
-                temperature: this.temperature,
-                humidity: this.humidity
+                humidity: this.humidity,
+                temperature: this.temperature
             };
         });
 
