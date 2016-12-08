@@ -44,7 +44,7 @@ Using directly in the zetta server:
 ```
 const zetta = require('zetta');
 const htu_sensor = require('@agilatech/zetta-htu21d-linux-driver');
-zetta().use(htu_sensor).listen(1337);
+zetta().use(htu_sensor).listen(1107);
 ```
 Initializes the htu21d driver on i2c bus /dev/i2c-1 with a data monitoring period of 60 seconds and streaming data every second
 
@@ -66,17 +66,17 @@ to indicate whether the device is monitoring data isochronally (a predefinied un
 
 
 ####Monitored Properties
-In the *chron-on* state and *active* operation, the driver software for this device monitors FIXME values in isochronal 
+In the *chron-on* state and *active* operation, the driver software for this device monitors two values in isochronal 
 fashion with a period defined by *chronPeriod*:
 1. **humidity** - Relative Humidity RH% range from 0-100
 2. **temperature** - Tempereature in °C range from -40°C to +125°C
 
 
 ####Streaming Properties
-If the hardware is *active*, the driver software continuously streams FIXME values with a frequency defined by 
+If the hardware is *active*, the driver software continuously streams two values with a frequency defined by 
 *streamPeriod*. Note that a *streamPeriod* of 0 disables streaming.
 1. **humidityStream**
-1. **temperatureStream**
+2. **temperatureStream**
 
 
 ###State
