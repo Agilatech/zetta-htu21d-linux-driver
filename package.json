@@ -1,6 +1,6 @@
 {
   "name": "@agilatech/zetta-htu21d-linux-driver",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Zetta htu21d driver for Linux",
   "main": "index.js",
   "scripts": {
